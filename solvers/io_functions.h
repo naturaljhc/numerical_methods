@@ -2,30 +2,35 @@
 #define IO_FUNCTIONS_H
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <vector>
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
-void write_to_tsv(vector<double> data, string filename) {
-    ofstream outfile(filename);
+void write_data_to_json(vector<double> data, string key_name, string filename) {
+    json jsonData;
     
-    if(!outfile) {
+    ifstream inFile;
+    inFile.open(filename);
+    inFile >> jsonData;
+    inFile.close();
+    
+    ofstream outFile;
+    outFile.open(filename);
+    
+    if(!outFile) {
         cerr << "Error: Unable to open file " << filename << endl;
         return;
     }
 
-    for (size_t i = 0; i < data.size(); i++)
-    {
-        if (i > 0) {
-            outfile << "\t";
-        }
-        outfile << data[i];
+    jsonData[key_name] = data;
 
-        outfile << "\t";
-    }
+    outFile << jsonData.dump(4) << endl;
 
-    outfile.close();
+    outFile.close();
 }
 
 #endif

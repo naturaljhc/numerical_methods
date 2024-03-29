@@ -8,6 +8,9 @@ using namespace std;
 
 char problem_menu()
 {   
+    /*
+    Outputs a list of different problems that this program can solve
+    */
     char user_input;
 
     cout << "(a) Differentiation" << endl;
@@ -27,7 +30,7 @@ int main()
 {
     char problem_choice;
     problem_choice = problem_menu();
-    
+
     switch (problem_choice)
     {
         case 'a':
