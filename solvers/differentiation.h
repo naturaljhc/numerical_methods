@@ -2,6 +2,7 @@
 #define DIFFERENTIATION_H
 
 #include <iostream>
+#include <iomanip>
 #include <symengine/real_double.h>
 #include <symengine/eval_double.h>
 #include <symengine/expression.h>
@@ -21,17 +22,18 @@ void differentiate(const RCP<const Basic> &f, vector<double> xvec)
     double f_curr, f_next;
 
     ofstream outFile;
+    outFile.open("data/differentiation_output.txt");
     
     double h = xvec[1] - xvec[0];
 
-    for (size_t i = 0; i < xvec.size() - 1; i++)
+    for (size_t i = 0; i < xvec.size(); i++)
     {
         f_curr = eval_double(*f->subs({{x, real_double(xvec[i])}}));
-        f_next = eval_double(*f->subs({{x, real_double(xvec[i+1])}}));
-        dfdx.push_back((f_next - f_curr) / h);
+        f_next = eval_double(*f->subs({{x, real_double(xvec[i] + h)}}));
+        outFile << setprecision(15) << (f_next - f_curr) / h << ' ';
+        
     }
-
-    write_to_tsv(dfdx, "differentiate_output.tsv");
+    outFile.close();
 }
 
 void differentiation()

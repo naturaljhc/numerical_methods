@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include "differentiation.h"
+#include "solvers/differentiation.h"
 
 using namespace std;
 
