@@ -2,11 +2,18 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include "solvers/differentiation.h"
+#include "solvers/drivers.h"
+#include <symengine/expression.h>
+#include <vector>
 
 using namespace std;
+using namespace SymEngine;
 
-char problem_menu()
+// Requesting user inputs and expressions should happen in here
+// Solvers should only contain the solver itself and return the data
+// Then save the data through a function in here
+
+void problem_menu()
 {   
     /*
     Outputs a list of different problems that this program can solve
@@ -14,28 +21,29 @@ char problem_menu()
     char user_input;
 
     cout << "(a) Differentiation" << endl;
-    // cout << "(b) Single-Variable Integration" << endl;
-    // cout << "(d) Multi-variable integration" << endl;
-    // cout << "(c) First Order ODE"; 
+    cout << "(b) Single-Variable Integration" << endl;
+    // cout << "(c) Multi-variable integration" << endl;
+    // cout << "(d) First Order ODE"; 
+
+    cout << "Enter your selection: ";
     cin >> user_input;
     cin.ignore(255, '\n');
-    return user_input;
+
+    RCP<const Basic> expr;
+    vector<double> data;
+    switch (user_input)
+    {
+        case 'a':
+            a_solver_menu();
+            break;
+        case 'b':
+            b_solver_menu();
+            break;
+    }
 }
-
-void solver_menu();
-
-void file_reader();
 
 int main() 
 {
-    char problem_choice;
-    problem_choice = problem_menu();
-
-    switch (problem_choice)
-    {
-        case 'a':
-            differentiation();
-            break;
-    }
+    problem_menu();
     return 0;
 }
