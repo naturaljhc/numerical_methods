@@ -28,7 +28,6 @@ vector<double> riemann_left_hand(const RCP<const Basic> &f, vector<double> xvec,
     {
         f_left = eval_double(*f->subs({{x, real_double(xvec[i])}}));
         riemann_sum += f_left * h;
-        // f_next = eval_double(*f->subs({{x, real_double(xvec[i]+h)}}));
         dfdx.push_back(riemann_sum);
     }
 
@@ -47,7 +46,6 @@ vector<double> riemann_right_hand(const RCP<const Basic> &f, vector<double> xvec
     {
         f_left = eval_double(*f->subs({{x, real_double(xvec[i])}}));
         riemann_sum += f_left * h;
-        // f_next = eval_double(*f->subs({{x, real_double(xvec[i]+h)}}));
         dfdx.push_back(riemann_sum);
     }
 

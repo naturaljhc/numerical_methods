@@ -38,6 +38,10 @@ void write_data_to_json(vector<double> data, string key_name, string filename) {
 
 RCP<const Basic> function_parser()
 {
+    /*
+    Prompts the user to input a function, parses it,
+    and prints it.
+    */
     RCP<const Basic> expr;
     string user_input;
     cout << "Enter your function, f(x) = ";
@@ -48,6 +52,7 @@ RCP<const Basic> function_parser()
         cout << "Parsed expression: " << expr->__str__() << endl;
     } catch (SymEngineException &e) {
         cerr << "Error: " << e.what() << endl;
+        exit(0);
     }
 
     return expr;
@@ -66,6 +71,13 @@ void a_solver_menu()
     vector<double> data;
     expr = function_parser();
 
+    /*
+    Request required information from user:
+    x0: Starting Point
+    xend: End Point
+    n: Number of points - the slope will be calculated for each of these points
+    */
+
     int n;
     double x0, xend;
     string problem = "Single-Variable Differentiation";
@@ -76,8 +88,9 @@ void a_solver_menu()
     cout << "Enter number of points, n = ";
     cin >> n;
 
-    // Save [x0, xend] and n to json
+    // Save information to json
     json inputData;
+    inputData["equation"] = expr->__str__();
     inputData["problem"] = problem;
     inputData["x0"] = x0;
     inputData["xend"] = xend;
@@ -95,7 +108,7 @@ void a_solver_menu()
     outFile.close();
 
     vector<double> xvec;
-    xvec = linspace(x0, xend, n);
+    xvec = linspace(x0, xend + (xend-x0)/(n-1), n+1);
 
     data = differentiate(expr, xvec);
     write_data_to_json(data, "data", "data/differentiation_output.json");
@@ -125,6 +138,14 @@ void b_solver_menu()
     vector<double> data;
     expr = function_parser();
 
+    /*
+    Request required information from user:
+    x0: Starting Point
+    xend: End Point
+    n: Number of points - the slope will be calculated for each of these points
+    initial_condition: Initial condition f(x0) = y0
+    */
+
     int n;
     double x0, xend, initial_condition;
     string problem = "Single-Variable Integration";
@@ -137,7 +158,7 @@ void b_solver_menu()
     cout << "Enter the initial condition, f(x0) = ";
     cin >> initial_condition;
 
-    // Save [x0, xend] and n to json
+    // Save information to json
     json inputData;
     inputData["problem"] = problem;
     inputData["x0"] = x0;
@@ -156,12 +177,16 @@ void b_solver_menu()
     outFile.close();
 
     vector<double> xvec;
-    xvec = linspace(x0, xend, n + 1);
+    xvec = linspace(x0, xend + (xend-x0)/(n-1), n+1);
 
     switch (user_input)
     {
         case 'a':
             data = riemann_left_hand(expr, xvec, initial_condition);
+            write_data_to_json(data, "data", "data/integration_output.json");
+            break;
+        case 'b':
+            data = riemann_right_hand(expr, xvec, initial_condition);
             write_data_to_json(data, "data", "data/integration_output.json");
             break;
     }

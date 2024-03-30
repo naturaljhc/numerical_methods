@@ -24,10 +24,10 @@ vector<double> differentiate(const RCP<const Basic> &f, vector<double> xvec)
     
     double h = xvec[1] - xvec[0];
 
-    for (size_t i = 0; i < xvec.size(); i++)
+    for (size_t i = 0; i < xvec.size() - 1; i++)
     {
         f_curr = eval_double(*f->subs({{x, real_double(xvec[i])}}));
-        f_next = eval_double(*f->subs({{x, real_double(xvec[i]+h)}}));
+        f_next = eval_double(*f->subs({{x, real_double(xvec[i+1])}}));
         dfdx.push_back((f_next - f_curr)/h);
     }
 
