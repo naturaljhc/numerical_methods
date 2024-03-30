@@ -3,7 +3,8 @@ Program to solve math problems using numerical methods in C++ and then plotting 
 
 ## Differentiation
 * Single-Variable Differentiation: Accepts a function, $f(x)$ and calculates the derivative at any given point, $x_i$, in a given interval using step size $h$. 
-$$ f'(x_i) =  \frac{f(x_i+h) - f(x_i)}{h}$$
+
+$$ f'(x_i) =  \frac{f(x_i+h) - f(x_i)}{h} $$
 
 ## Integration
 * Single-Variable Integration: Accepts a function, $f(x)$ and calculates the integral using a cumulative sum. Calculates the integral at any given point, $x_i$, in a given interval using step size, $h$, and initial condition.
