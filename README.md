@@ -21,6 +21,10 @@ F(x_i) = F_0 + h \times \sum^{i}_{j=1} f(x_{j}) \quad \text{for } i \geq 1
 ```math
 F(x_i) = F_0 + h \times \sum^{i}_{j=1} f \bigg( \frac{x_{j}+x_{j-1}}{2} \bigg) \quad \text{for } i \geq 1
 ```
+* Trapezoidal Rule:
+```math
+F(x_i) = F_0 + h \times \sum^{i}_{j=1} \frac{f(x_{j})+f(x_{j-1})}{2} \quad \text{for } i \geq 1
+```
 ## Ordinary Differential Equations
 
 ## Systems of Ordinary Differential Equations

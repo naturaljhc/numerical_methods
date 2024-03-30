@@ -190,6 +190,9 @@ void b_solver_menu()
         case 'c':
             data = riemann_midpoint(expr, xvec, initial_condition);
             break;
+        case 'd':
+            data = riemann_trapezoidal(expr, xvec, initial_condition);
+            break;
     }
     write_data_to_json(data, "data", "data/integration_output.json");
 }

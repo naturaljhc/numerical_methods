@@ -76,4 +76,25 @@ vector<double> riemann_midpoint(const RCP<const Basic> &f, vector<double> xvec, 
     return dfdx;
 }
 
+vector<double> riemann_trapezoidal(const RCP<const Basic> &f, vector<double> xvec, double initial_condition)
+{
+    RCP<const Basic> x = symbol("x");
+    vector<double> dfdx;
+    double riemann_sum = initial_condition, f_left, f_right;
+    
+    double h = xvec[1] - xvec[0];
+
+    dfdx.push_back(riemann_sum);
+
+    for (size_t i = 1; i < xvec.size(); i++)
+    {
+        f_left = eval_double(*f->subs({{x, real_double(xvec[i-1])}}));
+        f_right = eval_double(*f->subs({{x, real_double(xvec[i])}}));
+        riemann_sum += (f_left + f_right) / 2 * h;
+        dfdx.push_back(riemann_sum);
+    }
+
+    return dfdx;
+}
+
 #endif
