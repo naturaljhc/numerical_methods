@@ -97,4 +97,26 @@ vector<double> riemann_trapezoidal(const RCP<const Basic> &f, vector<double> xve
     return dfdx;
 }
 
+vector<double> simpsons_quadratic(const RCP<const Basic> &f, vector<double> xvec, double initial_condition)
+{
+    RCP<const Basic> x = symbol("x");
+    vector<double> dfdx;
+    double riemann_sum = initial_condition, f_left, f_middle, f_right;
+    
+    double h = xvec[1] - xvec[0];
+
+    dfdx.push_back(riemann_sum);
+
+    for (size_t i = 1; i < xvec.size(); i++)
+    {
+        f_left = eval_double(*f->subs({{x, real_double(xvec[i-1])}}));
+        f_middle = eval_double(*f->subs({{x, real_double(xvec[i]-h/2)}}));
+        f_right = eval_double(*f->subs({{x, real_double(xvec[i])}}));
+        riemann_sum += h / 6 * (f_left + 4 * f_middle + f_right);
+        dfdx.push_back(riemann_sum);
+    }
+
+    return dfdx;
+}
+
 #endif

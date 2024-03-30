@@ -25,6 +25,10 @@ F(x_i) = F_0 + h \times \sum^{i}_{j=1} f \bigg( \frac{x_{j}+x_{j-1}}{2} \bigg) \
 ```math
 F(x_i) = F_0 + h \times \sum^{i}_{j=1} \frac{f(x_{j})+f(x_{j-1})}{2} \quad \text{for } i \geq 1
 ```
+* Simpson's 1/3 (Quadratic) Rule:
+```math
+F(x_i) = F_0 + h \times \sum^{i}_{j=1} \frac{h}{6}\bigg(f(x_{j-1})+4*f\bigg(x_{j} + \frac{h}{2}\bigg) + f(x_j)\bigg) \quad \text{for } i \geq 1 
+```
 ## Ordinary Differential Equations
 
 ## Systems of Ordinary Differential Equations

@@ -124,11 +124,11 @@ void b_solver_menu()
 
     char user_input;
 
-    cout << "(a) Riemann Sum - Left Rule" << endl;
-    cout << "(b) Riemann Sum - Right Rule" << endl;
-    cout << "(c) Riemann Sum - Midpoint Rule" << endl;
-    cout << "(d) Riemann Sum - Trapezoidal Rule" << endl;
-    cout << "(e) Simpson's Rule" << endl; 
+    cout << "(a) Left Side Rule" << endl;
+    cout << "(b) Right Side Rule" << endl;
+    cout << "(c) Midpoint Rule" << endl;
+    cout << "(d) Trapezoidal Rule" << endl;
+    cout << "(e) Simpson's 1/3 Rule" << endl; 
 
     cout << "Enter your selection: ";
     cin >> user_input;
@@ -192,6 +192,9 @@ void b_solver_menu()
             break;
         case 'd':
             data = riemann_trapezoidal(expr, xvec, initial_condition);
+            break;
+        case 'e':
+            data = simpsons_quadratic(expr, xvec, initial_condition);
             break;
     }
     write_data_to_json(data, "data", "data/integration_output.json");
