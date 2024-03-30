@@ -177,7 +177,7 @@ void b_solver_menu()
     outFile.close();
 
     vector<double> xvec;
-    xvec = linspace(x0, xend + (xend-x0)/(n-1), n+1);
+    xvec = linspace(x0, xend, n);
 
     switch (user_input)
     {
