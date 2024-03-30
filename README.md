@@ -16,6 +16,7 @@ $$ F(x_i) = F_0 + h * \sum^{i}_{j=0} f(x_j) $$
 
 $$ F(x_i) = F_0 + h * \sum^{i}_{j=0} f(x_{j+1}) $$
 
+
 ## Ordinary Differential Equations
 
 ## Systems of Ordinary Differential Equations
