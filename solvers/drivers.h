@@ -182,14 +182,16 @@ void b_solver_menu()
     switch (user_input)
     {
         case 'a':
-            data = riemann_left_hand(expr, xvec, initial_condition);
-            write_data_to_json(data, "data", "data/integration_output.json");
+            data = riemann_left_side(expr, xvec, initial_condition);
             break;
         case 'b':
-            data = riemann_right_hand(expr, xvec, initial_condition);
-            write_data_to_json(data, "data", "data/integration_output.json");
+            data = riemann_right_side(expr, xvec, initial_condition);
+            break;
+        case 'c':
+            data = riemann_midpoint(expr, xvec, initial_condition);
             break;
     }
+    write_data_to_json(data, "data", "data/integration_output.json");
 }
 
 #endif

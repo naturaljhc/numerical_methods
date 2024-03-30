@@ -8,14 +8,18 @@ f'(x_i) =  \frac{f(x_i+h) - f(x_i)}{h}
 ```
 
 ## Integration
-Single-Variable Integration: Accepts a function, $f(x)$, and calculates the integral using a cumulative sum. Calculates the integral at any given point, $x_i$, in a given interval using step size, $h$, and initial condition, $F(x_0) = F_0$. 
+Single-Variable Integration: Accepts a function, $f(x)$, and calculates the integral using a cumulative sum. Calculates the integral at any given point, $x_i$, in a given interval using step size, $h$, and initial condition, $F(x_0) = F_0$. Note that for this program, $n$ is the number of **points**, not **sub-intervals**; the number of **sub-intervals** is $n-1$.
 * Left Side Rule: 
 ```math
-F(x_i) = F_0 + h \times \sum^{i-1}_{j=0} f(x_j) \quad \text{For } i \geq 1
+F(x_i) = F_0 + h \times \sum^{i-1}_{j=0} f(x_j) \quad \text{for } i \geq 1
 ```
 * Right Side Rule: 
 ```math
-F(x_i) = F_0 + h \times \sum^{i}_{j=1} f(x_{j}) \quad \text{For } i \geq 1
+F(x_i) = F_0 + h \times \sum^{i}_{j=1} f(x_{j}) \quad \text{for } i \geq 1
+```
+* Midpoint Rule:
+```math
+F(x_i) = F_0 + h \times \sum^{i}_{j=1} f \bigg( \frac{x_{j}+x_{j-1}}{2} \bigg) \quad \text{for } i \geq 1
 ```
 ## Ordinary Differential Equations
 

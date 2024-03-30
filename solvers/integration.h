@@ -16,7 +16,7 @@ using namespace std;
 using namespace SymEngine;
 using json = nlohmann::json;
 
-vector<double> riemann_left_hand(const RCP<const Basic> &f, vector<double> xvec, double initial_condition)
+vector<double> riemann_left_side(const RCP<const Basic> &f, vector<double> xvec, double initial_condition)
 {
     RCP<const Basic> x = symbol("x");
     vector<double> dfdx;
@@ -36,7 +36,7 @@ vector<double> riemann_left_hand(const RCP<const Basic> &f, vector<double> xvec,
     return dfdx;
 }
 
-vector<double> riemann_right_hand(const RCP<const Basic> &f, vector<double> xvec, double initial_condition)
+vector<double> riemann_right_side(const RCP<const Basic> &f, vector<double> xvec, double initial_condition)
 {
     RCP<const Basic> x = symbol("x");
     vector<double> dfdx;
@@ -50,6 +50,26 @@ vector<double> riemann_right_hand(const RCP<const Basic> &f, vector<double> xvec
     {
         f_right = eval_double(*f->subs({{x, real_double(xvec[i])}}));
         riemann_sum += f_right * h;
+        dfdx.push_back(riemann_sum);
+    }
+
+    return dfdx;
+}
+
+vector<double> riemann_midpoint(const RCP<const Basic> &f, vector<double> xvec, double initial_condition)
+{
+    RCP<const Basic> x = symbol("x");
+    vector<double> dfdx;
+    double riemann_sum = initial_condition, f_mid;
+    
+    double h = xvec[1] - xvec[0];
+
+    dfdx.push_back(riemann_sum);
+
+    for (size_t i = 1; i < xvec.size(); i++)
+    {
+        f_mid = eval_double(*f->subs({{x, real_double((xvec[i] + xvec[i-1])/2)}}));
+        riemann_sum += f_mid * h;
         dfdx.push_back(riemann_sum);
     }
 
