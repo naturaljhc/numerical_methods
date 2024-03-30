@@ -6,9 +6,7 @@ Single-Variable Differentiation: Accepts a function, $f(x)$, and calculates the 
 
 ## Integration
 Single-Variable Integration: Accepts a function, $f(x)$, and calculates the integral using a cumulative sum. Calculates the integral at any given point, $x_i$, in a given interval using step size, $h$, and initial condition.
-* Left Side Rule: 
-
-$$ F(x_i) = F_0 + h * \sum^{i}_{j=0} f(x_j) $$
+* Left Side Rule: \( F(x_i) = F_0 + h \times \sum_{j=0}^{i} f(x_j) \)
 
 * Right Side Rule: 
 
