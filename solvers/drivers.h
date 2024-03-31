@@ -5,6 +5,7 @@
 #include "json.hpp"
 #include "differentiation.h"
 #include "integration.h"
+#include "first_order_ode.h"
 #include <symengine/expression.h>
 #include <symengine/parser.h>
 #include <vector>
@@ -58,6 +59,28 @@ RCP<const Basic> function_parser()
     return expr;
 }
 
+RCP<const Basic> ode_parser()
+{
+    /*
+    Prompts the user to input a function, parses it,
+    and prints it.
+    */
+    RCP<const Basic> expr;
+    string user_input;
+    cout << "Enter your function, f(u,t) = ";
+    getline(cin, user_input);
+
+    try {
+        expr = parse(user_input);
+        cout << "Parsed expression: " << expr->__str__() << endl;
+    } catch (SymEngineException &e) {
+        cerr << "Error: " << e.what() << endl;
+        exit(0);
+    }
+
+    return expr;
+}
+
 void a_solver_menu()
 {
     /*
@@ -75,7 +98,8 @@ void a_solver_menu()
     Request required information from user:
     x0: Starting Point
     xend: End Point
-    n: Number of points - the slope will be calculated for each of these points
+    n: Number of sub-intervals - the slope will be the left point of each subinterval
+    NOTE: The slope at xend wll not be calculated since xend + h would be needed for the calculation
     */
 
     int n;
@@ -85,7 +109,7 @@ void a_solver_menu()
     cin >> x0;
     cout << "Enter the end point, x = ";
     cin >> xend;
-    cout << "Enter number of points, n = ";
+    cout << "Enter number of sub-intervals, n = ";
     cin >> n;
 
     // Save information to json
@@ -96,8 +120,9 @@ void a_solver_menu()
     inputData["xend"] = xend;
     inputData["n"] = n;
 
+    string file_path = "data/differentiation_output.json";
     ofstream outFile;
-    outFile.open("data/differentiation_output.json");
+    outFile.open(file_path);
 
     if(!outFile) {
         cerr << "Error: Unable to open file " << endl;
@@ -108,10 +133,10 @@ void a_solver_menu()
     outFile.close();
 
     vector<double> xvec;
-    xvec = linspace(x0, xend + (xend-x0)/(n-1), n+1);
+    xvec = linspace(x0, xend, n+1);
 
     data = differentiate(expr, xvec);
-    write_data_to_json(data, "data", "data/differentiation_output.json");
+    write_data_to_json(data, "data", file_path);
 }
 
 void b_solver_menu()
@@ -142,8 +167,8 @@ void b_solver_menu()
     Request required information from user:
     x0: Starting Point
     xend: End Point
-    n: Number of points - the slope will be calculated for each of these points
-    initial_condition: Initial condition f(x0) = y0
+    n: Number of sub-intervals - the area of each subinterval will be used to calculate the antiderivative at each point
+    initial_condition: Initial condition F(x0) = F0
     */
 
     int n;
@@ -153,9 +178,9 @@ void b_solver_menu()
     cin >> x0;
     cout << "Enter the end point, x = ";
     cin >> xend;
-    cout << "Enter number of points, n = ";
+    cout << "Enter number of sub-intervals, n = ";
     cin >> n;
-    cout << "Enter the initial condition, f(x0) = ";
+    cout << "Enter the initial condition, F(x0) = ";
     cin >> initial_condition;
 
     // Save information to json
@@ -165,8 +190,9 @@ void b_solver_menu()
     inputData["xend"] = xend;
     inputData["n"] = n;
 
+    string file_path = "data/integration_output.json";
     ofstream outFile;
-    outFile.open("data/integration_output.json");
+    outFile.open(file_path);
 
     if(!outFile) {
         cerr << "Error: Unable to open file " << endl;
@@ -177,7 +203,7 @@ void b_solver_menu()
     outFile.close();
 
     vector<double> xvec;
-    xvec = linspace(x0, xend, n);
+    xvec = linspace(x0, xend, n+1);
 
     switch (user_input)
     {
@@ -197,7 +223,79 @@ void b_solver_menu()
             data = simpsons_quadratic(expr, xvec, initial_condition);
             break;
     }
-    write_data_to_json(data, "data", "data/integration_output.json");
+    write_data_to_json(data, "data", file_path);
+}
+
+void c_solver_menu()
+{
+    /*
+    Outputs a list of solvers when 
+    (c) First Order ODE
+    is selected in the problem menu
+    */
+
+    char user_input;
+
+    cout << "(a) Euler's Method" << endl;
+    cout << "(b) Backward Euler Method" << endl;
+
+    cout << "Enter your selection: ";
+    cin >> user_input;
+    cin.ignore(255, '\n');
+
+    RCP<const Basic> expr;
+    vector<double> data;
+    expr = ode_parser();
+
+    /*
+    Request required information from user:
+    t0: Starting Point
+    tend: End Point
+    n: Number of sub-intervals
+    initial_condition: Initial condition u(t0) = u0
+    */
+
+    int n;
+    double t0, tend, initial_condition;
+    string problem = "First Order ODE";
+    cout << "Enter the starting point, t = ";
+    cin >> t0;
+    cout << "Enter the end point, t = ";
+    cin >> tend;
+    cout << "Enter number of sub-intervals, n = ";
+    cin >> n;
+    cout << "Enter the initial condition, u(t0) = ";
+    cin >> initial_condition;
+
+    // Save information to json
+    json inputData;
+    inputData["problem"] = problem;
+    inputData["t0"] = t0;
+    inputData["tend"] = tend;
+    inputData["n"] = n;
+
+    string file_path = "data/first_order_ODE_output.json";
+    ofstream outFile;
+    outFile.open(file_path);
+
+    if(!outFile) {
+        cerr << "Error: Unable to open file " << endl;
+        exit(0);
+    }
+
+    outFile << inputData.dump(4) << endl;
+    outFile.close();
+
+    vector<double> tvec;
+    tvec = linspace(t0, tend, n+1);
+
+    switch (user_input)
+    {
+        case 'a':
+            data = eulers_method(expr, tvec, initial_condition);
+            break;
+    }
+    write_data_to_json(data, "data", file_path);
 }
 
 #endif

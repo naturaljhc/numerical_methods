@@ -22,8 +22,7 @@ void problem_menu()
 
     cout << "(a) Differentiation" << endl;
     cout << "(b) Single-Variable Integration" << endl;
-    // cout << "(c) Multi-variable integration" << endl;
-    // cout << "(d) First Order ODE"; 
+    cout << "(c) First Order ODE" << endl; 
 
     cout << "Enter your selection: ";
     cin >> user_input;
@@ -38,6 +37,9 @@ void problem_menu()
             break;
         case 'b':
             b_solver_menu();
+            break;
+        case 'c':
+            c_solver_menu();
             break;
     }
 }
