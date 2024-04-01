@@ -29,7 +29,7 @@ F(x_i) = F_0 + h \sum^{i}_{j=1} \frac{f(x_{j})+f(x_{j-1})}{2} \quad \text{for } 
 ```math
 F(x_i) = F_0 + h \sum^{i}_{j=1} \frac{h}{6}\bigg[f(x_{j-1})+4*f\bigg(x_{j} + \frac{h}{2}\bigg) + f(x_j)\bigg] \quad \text{for } i \geq 1 
 ```
-## Ordinary Differential Equations
+## First Order Ordinary Differential Equations
 First Order Ordinary Differential Equations: Accepts a function $f(u(t), t)$ and numerically calculates $u(t)$ within a given interval using step size, $h$, and initial condition, $u(t_0)=u_0$.
 * Euler Method:
 ```math
