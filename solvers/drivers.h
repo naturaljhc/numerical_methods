@@ -238,6 +238,8 @@ void c_solver_menu()
 
     cout << "(a) Euler's Method" << endl;
     cout << "(b) Backward Euler Method" << endl;
+    cout << "(c) Midpoint Method" << endl;
+    cout << "(d) Trapezoidal Method" << endl;
 
     cout << "Enter your selection: ";
     cin >> user_input;
@@ -297,6 +299,9 @@ void c_solver_menu()
             break;
         case 'b':
             data = backward_eulers_method(expr, tvec, initial_condition);
+            break;
+        case 'c':
+            data = midpoint_method(expr, tvec, initial_condition);
             break;
     }
     write_data_to_json(data, "data", file_path);

@@ -39,7 +39,7 @@ u_{i+1} = u_i + hf(u_i,t_i)
 ```math
 u_{i+1} = u_i + hf(u_{i+1},t_{i+1})
 ```
-* Midpoint Method: TODO
+* Midpoint Method: 
 ```math
 u_{i+1} = u_{i-1} + hf(u_i , t_i)
 ```
