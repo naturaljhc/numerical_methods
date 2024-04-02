@@ -301,10 +301,13 @@ void c_solver_menu()
             data = backward_eulers_method(expr, tvec, initial_condition);
             break;
         case 'c':
-            data = midpoint_method(expr, tvec, initial_condition);
+            data = two_step_midpoint_method(expr, tvec, initial_condition);
             break;
         case 'd':
             data = trapezoidal_method(expr, tvec, initial_condition);
+            break;
+        case 'e':
+            data = rk2(expr, tvec, initial_condition);
             break;
     }
     write_data_to_json(data, "data", file_path);

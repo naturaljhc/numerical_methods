@@ -75,29 +75,33 @@ vector<double> backward_eulers_method(const RCP<const Basic> &f, vector<double> 
     return ut;
 }
 
-vector<double> midpoint_method(const RCP<const Basic> &f, vector<double> tvec, double initial_condition)
+vector<double> two_step_midpoint_method(const RCP<const Basic> &f, vector<double> tvec, double initial_condition)
 {
     RCP<const Basic> u = symbol("u");
     RCP<const Basic> t = symbol("t");
     vector<double> ut;
-    double h, umid, unext;
+    double h, unext;
 
     h = tvec[1] - tvec[0];
 
     ut.push_back(initial_condition);
 
-    for (size_t i = 0; i < tvec.size() - 1; i++)
+    // Initialize the midpoint method:
+    // Euler's method to find u_1
+    unext = ut[0] + h * eval_double(
+            *f->subs(
+                    {{u, real_double(ut[0])}, {t, real_double(tvec[0])}}
+                )
+            );
+    ut.push_back(unext);
+
+    for (size_t i = 1; i < tvec.size() - 1; i++)
     {
-        umid = ut[i] + h / 2 * eval_double(
+        unext = ut[i-1] + h * eval_double(
             *f->subs(
-                {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
-            )
-        );
-        unext = ut[i] + h * eval_double(
-            *f->subs(
-                {{u, real_double(umid)}, {t, real_double(tvec[i] + h/2)}}
-            )
-        );
+                    {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
+                )
+            );
         ut.push_back(unext);
     }
 
@@ -140,4 +144,32 @@ vector<double> trapezoidal_method(const RCP<const Basic> &f, vector<double> tvec
     return ut;
 }
 
+vector<double> rk2(const RCP<const Basic> &f, vector<double> tvec, double initial_condition)
+{
+    RCP<const Basic> u = symbol("u");
+    RCP<const Basic> t = symbol("t");
+    vector<double> ut;
+    double h, umid, unext;
+
+    h = tvec[1] - tvec[0];
+
+    ut.push_back(initial_condition);
+
+    for (size_t i = 0; i < tvec.size() - 1; i++)
+    {
+        umid = ut[i] + h / 2 * eval_double(
+            *f->subs(
+                {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
+            )
+        );
+        unext = ut[i] + h * eval_double(
+            *f->subs(
+                {{u, real_double(umid)}, {t, real_double(tvec[i] + h/2)}}
+            )
+        );
+        ut.push_back(unext);
+    }
+
+    return ut;
+}
 #endif
