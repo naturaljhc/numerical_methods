@@ -295,6 +295,9 @@ void c_solver_menu()
         case 'a':
             data = eulers_method(expr, tvec, initial_condition);
             break;
+        case 'b':
+            data = backward_eulers_method(expr, tvec, initial_condition);
+            break;
     }
     write_data_to_json(data, "data", file_path);
 }

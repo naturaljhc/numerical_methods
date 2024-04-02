@@ -47,7 +47,7 @@ double finite_differences_newtons_method(const RCP<const Basic> &f, double h, do
     double root = 0, dfdx;
 
     for (int i = 0; i < iter; i++) {
-        dfdx = (eval_double(*f->subs({{x, real_double(x0+ h)}})) - eval_double(*f->subs({{x, real_double(x0)}}))) / h;
+        dfdx = (eval_double(*f->subs({{x, real_double(x0+h)}})) - eval_double(*f->subs({{x, real_double(x0)}}))) / h;
 
         root = x0 - (eval_double(*f->subs({{x, real_double(x0)}}))) /
                     (dfdx);
