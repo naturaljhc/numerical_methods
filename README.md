@@ -37,7 +37,7 @@ u_{i+1} = u_i + hf(u_i,t_i)
 ```
 * Backward Euler's Method: Uses Newton's Method to solve $u_{i+1} - u_i - hf(u_{i+1}, t_{i+1})=0$.
 ```math
-u_{i+1} = u_i + hf(u_{i+1},t_{i+1)
+u_{i+1} = u_i + hf(u_{i+1},t_{i+1})
 ```
 * Midpoint Method: TODO
 ```math
