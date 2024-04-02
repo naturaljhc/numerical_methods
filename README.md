@@ -31,16 +31,19 @@ F(x_i) = F_0 + h \sum^{i}_{j=1} \frac{h}{6}\bigg[f(x_{j-1})+4*f\bigg(x_{j} + \fr
 ```
 ## First Order Ordinary Differential Equations
 First Order Ordinary Differential Equations: Accepts a function $f(u(t), t)$ and numerically calculates $u(t)$ within a given interval using step size, $h$, and initial condition, $u(t_0)=u_0$.
-* Euler Method:
+* Euler's Method:
 ```math
-u(t_{i+1}) = u(t_i) + hf(u(t_i),t_i)
+u_{i+1} = u_i + hf(u_i,t_i)
 ```
-* Backward Euler Method: Uses Newton's Method to solve $u_{i+1} - u_i - hf(u_{i+1}, t_{i+1})=0$.
+* Backward Euler's Method: Uses Newton's Method to solve $u_{i+1} - u_i - hf(u_{i+1}, t_{i+1})=0$.
 ```math
-u(t_{i+1}) = u(t_i) + hf(u(t_{i+1}),t_i)
+u_{i+1} = u_i + hf(u_{i+1},t_{i+1)
 ```
-## Systems of Ordinary Differential Equations
-
-## Partial Differential Equations
-
-## Systems of Partial Differential Equations
+* Midpoint Method: TODO
+```math
+u_{i+1} = u_{i-1} + hf(u_i , t_i)
+```
+* Trapezoidal Method: TODO Uses Newton's Method to solve $u_{i+1} - u_i - \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1})) = 0$
+```math
+u_{i+1} = u_i + \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1}))
+```
