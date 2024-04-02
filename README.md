@@ -35,7 +35,7 @@ First Order Ordinary Differential Equations: Accepts a function $f(u(t), t)$ and
 ```math
 u(t_{i+1}) = u(t_i) + hf(u(t_i),t_i)
 ```
-* Backward Euler Method: Not implemented yet due to needing a root finding method (such as Newton's Method) to solve $u_{i+1} - u_i - hf(u_{i+1}, t_{i+1})=0$.
+* Backward Euler Method: Uses Newton's Method to solve $u_{i+1} - u_i - hf(u_{i+1}, t_{i+1})=0$.
 ```math
 u(t_{i+1}) = u(t_i) + hf(u(t_{i+1}),t_i)
 ```
