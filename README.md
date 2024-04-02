@@ -43,7 +43,9 @@ u_{i+1} = u_i + hf(u_{i+1},t_{i+1})
 ```math
 u_{i+1} = u_{i-1} + hf(u_i , t_i)
 ```
-* Trapezoidal Method: TODO Uses Newton's Method to solve $u_{i+1} - u_i - \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1})) = 0$
+* Trapezoidal Method: Uses Newton's Method to solve $u_{i+1} - u_i - \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1})) = 0$
 ```math
 u_{i+1} = u_i + \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1}))
 ```
+
+$$u_{i+1} = u_i + \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1}))$$

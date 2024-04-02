@@ -17,9 +17,9 @@
 using namespace std;
 using namespace SymEngine;
 
-double newtons_method(const RCP<const Basic> &f, const RCP<const Basic> &dfdx, double x0, int iter = 100, double tol = pow(1.0,-10))
+double newtons_method(const RCP<const Basic> &f, const RCP<const Basic> &dfdx, double x0, int iter = 1000, double tol = 1e-10)
 {
-    RCP<const Basic> x = symbol("x");
+    RCP<const Symbol> x = symbol("x");
     double root = 0;
 
     for (int i = 0; i < iter; i++) {
@@ -37,13 +37,13 @@ double newtons_method(const RCP<const Basic> &f, const RCP<const Basic> &dfdx, d
     return root;
 }
 
-double finite_differences_newtons_method(const RCP<const Basic> &f, double h, double x0, int iter = 100, double tol = pow(1.0,-10))
+double finite_differences_newtons_method(const RCP<const Basic> &f, double h, double x0, int iter = 1000, double tol = 1e-10)
 {
     // If the derivative of f is either unknown or hard to calculate,
     // this function will use finite differences to determine an approximation
     // of the derivative at x
 
-    RCP<const Basic> x = symbol("x");
+    RCP<const Symbol> x = symbol("x");
     double root = 0, dfdx;
 
     for (int i = 0; i < iter; i++) {

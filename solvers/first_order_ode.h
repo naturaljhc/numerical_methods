@@ -7,6 +7,7 @@
 #include <symengine/eval_double.h>
 #include <symengine/expression.h>
 #include <symengine/symbol.h>
+#include <symengine/derivative.h>
 #include "linalg_functions.h"
 #include <fstream>
 #include <vector>
@@ -43,18 +44,32 @@ vector<double> eulers_method(const RCP<const Basic> &f, vector<double> tvec, dou
 
 vector<double> backward_eulers_method(const RCP<const Basic> &f, vector<double> tvec, double initial_condition)
 {
-    RCP<const Basic> u = symbol("u");
-    RCP<const Basic> t = symbol("t");
-    RCP<const Basic> x = symbol("x");
-    RCP<const Basic> root_funct;
+    RCP<const Symbol> u = symbol("u");
+    RCP<const Symbol> t = symbol("t");
+    RCP<const Symbol> x = symbol("x");
+    RCP<const Basic> root_funct, dfdx;
     vector<double> ut;
+    double h;
+
+    h = tvec[1] - tvec[0];
 
     ut.push_back(initial_condition);
 
     for (size_t i = 0; i < tvec.size() - 1; i++)
     {   
-        root_funct = sub(sub(x, real_double(ut[i])), f->subs({{u, symbol("x")}, {t, real_double(tvec[i+1])}}));
-        ut.push_back(finite_differences_newtons_method(root_funct, pow(1,-16), ut[i]));
+        root_funct = sub(
+            sub(
+                x, 
+                real_double(ut[i])
+            ), 
+            mul(
+                real_double(h), 
+                f->subs({{u, x}, {t, real_double(tvec[i+1])}})
+            )
+        );
+
+        dfdx = diff(root_funct, x);
+        ut.push_back(newtons_method(root_funct, dfdx, ut[i]));
     }
 
     return ut;
@@ -65,29 +80,61 @@ vector<double> midpoint_method(const RCP<const Basic> &f, vector<double> tvec, d
     RCP<const Basic> u = symbol("u");
     RCP<const Basic> t = symbol("t");
     vector<double> ut;
-    double h, unext;
+    double h, umid, unext;
 
     h = tvec[1] - tvec[0];
 
     ut.push_back(initial_condition);
 
-    // Initialize the midpoint method:
-    // Euler's method to find u_1
-    unext = ut[0] + h * eval_double(
-            *f->subs(
-                    {{u, real_double(ut[0])}, {t, real_double(tvec[0])}}
-                )
-            );
-    ut.push_back(unext);
-
-    for (size_t i = 1; i < tvec.size() - 1; i++)
+    for (size_t i = 0; i < tvec.size() - 1; i++)
     {
-        unext = ut[i-1] + h * eval_double(
+        umid = ut[i] + h / 2 * eval_double(
             *f->subs(
-                    {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
-                )
-            );
+                {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
+            )
+        );
+        unext = ut[i] + h * eval_double(
+            *f->subs(
+                {{u, real_double(umid)}, {t, real_double(tvec[i] + h/2)}}
+            )
+        );
         ut.push_back(unext);
+    }
+
+    return ut;
+}
+
+vector<double> trapezoidal_method(const RCP<const Basic> &f, vector<double> tvec, double initial_condition)
+{
+    RCP<const Symbol> u = symbol("u");
+    RCP<const Symbol> t = symbol("t");
+    RCP<const Symbol> x = symbol("x");
+    RCP<const Basic> root_funct, dfdx;
+    vector<double> ut;
+    double h;
+
+    h = tvec[1] - tvec[0];
+
+    ut.push_back(initial_condition);
+
+    for (size_t i = 0; i < tvec.size() - 1; i++)
+    {   
+        root_funct = sub(
+            sub(
+                x, 
+                real_double(ut[i])
+            ), 
+            mul(
+                real_double(h/2), 
+                add(
+                    f->subs({{u, real_double(ut[i])}, {t, real_double(tvec[i])}}),
+                    f->subs({{u, x}, {t, real_double(tvec[i+1])}})
+                )
+            )
+        );
+        dfdx = diff(root_funct, x);
+
+        ut.push_back(newtons_method(root_funct, dfdx, ut[i]));
     }
 
     return ut;

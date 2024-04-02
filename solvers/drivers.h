@@ -303,6 +303,9 @@ void c_solver_menu()
         case 'c':
             data = midpoint_method(expr, tvec, initial_condition);
             break;
+        case 'd':
+            data = trapezoidal_method(expr, tvec, initial_condition);
+            break;
     }
     write_data_to_json(data, "data", file_path);
 }
