@@ -49,9 +49,9 @@ u_{i+1} = u_i + \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1}))
 ```
 * Second Order Runge-Kutta (RK2 - Midpoint Method)
 ```math
-\begin{cases}
-k_1 = h f(u_i, t_i) \\
-k_2 = h f(u_i + \frac{k_1}{2}, t_i + \frac{h}{2}) \\
-k_{i+1} = u_i + k_2
-\end{cases}
+\begin{align*}
+k_1 &= h f(u_i, t_i) \\
+k_2 &= h f(u_i + \frac{k_1}{2}, t_i + \frac{h}{2}) \\
+k_{i+1} &= u_i + k_2
+\end{align*}
 ```
