@@ -240,6 +240,7 @@ void c_solver_menu()
     cout << "(b) Backward Euler Method" << endl;
     cout << "(c) Midpoint Method" << endl;
     cout << "(d) Trapezoidal Method" << endl;
+    cout << "(e) RK2" << endl;
 
     cout << "Enter your selection: ";
     cin >> user_input;
