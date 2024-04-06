@@ -162,13 +162,52 @@ vector<double> rk2(const RCP<const Basic> &f, vector<double> tvec, double initia
                 {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
             )
         );
+
         k2 = h * eval_double(
             *f->subs(
-                {{u, real_double(k1/2)}, {t, real_double(tvec[i]+h/2)}}
+                {{u, real_double(ut[i] + k1/2)}, {t, real_double(tvec[i] + h/2)}}
             )
         );
+
         ut.push_back(ut[i] + k2);
     }
     return ut;
 }
+
+vector<double> rk3(const RCP<const Basic> &f, vector<double> tvec, double initial_condition)
+{
+    RCP<const Basic> u = symbol("u");
+    RCP<const Basic> t = symbol("t");
+    vector<double> ut;
+    double h, k1, k2, k3;
+
+    h = tvec[1] - tvec[0];
+
+    ut.push_back(initial_condition);
+
+    for (size_t i = 0; i < tvec.size() - 1; i++)
+    {
+        k1 = h * eval_double(
+            *f->subs(
+                {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
+            )
+        );
+
+        k2 = h * eval_double(
+            *f->subs(
+                {{u, real_double(ut[i] + k1/2)}, {t, real_double(tvec[i] + h/2)}}
+            )
+        );
+
+        k3 = h * eval_double(
+            *f->subs(
+                {{u, real_double(ut[i] - k1 + 2*k2)}, {t, real_double(tvec[i] + h)}}
+            )
+        );
+
+        ut.push_back(ut[i] + k1/6 + 2*k2/3 + k3/6);
+    }
+    return ut;
+}
+
 #endif

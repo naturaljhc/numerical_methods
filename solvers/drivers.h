@@ -241,6 +241,7 @@ void c_solver_menu()
     cout << "(c) Midpoint Method" << endl;
     cout << "(d) Trapezoidal Method" << endl;
     cout << "(e) RK2" << endl;
+    cout << "(f) RK3" << endl;
 
     cout << "Enter your selection: ";
     cin >> user_input;
@@ -309,6 +310,9 @@ void c_solver_menu()
             break;
         case 'e':
             data = rk2(expr, tvec, initial_condition);
+            break;
+        case 'f':
+            data = rk3(expr, tvec, initial_condition);
             break;
     }
     write_data_to_json(data, "data", file_path);
