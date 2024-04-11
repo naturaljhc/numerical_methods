@@ -64,3 +64,13 @@ k_3 &= h f(u_i - k_1 + 2k_2, t_i + h) \\
 u_{i+1} &= u_i + \frac{1}{6}k_1 + \frac{2}{3}k_2 + \frac{1}{6}k_3
 \end{align*}
 ```
+* Fourth Order Runge-Kutta (RK4)
+```math
+\begin{align*}
+k_1 &= h f(u_i, t_i) \\
+k_2 &= h f\Big(u_i + \frac{k_1}{2}, t_i + \frac{h}{2}\Big) \\
+k_3 &= h f\Big(u_i + \frac{k_2}{2}, t_i + \frac{h}{2}\Big) \\
+k_4 &= h f(u_i + k_3, t_i + h) \\
+u_{i+1} &= u_i + \frac{1}{6}k_1 + \frac{1}{3}k_2 + \frac{1}{3}k_3 + \frac{1}{6}k_4
+\end{align*}
+```
