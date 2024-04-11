@@ -52,6 +52,15 @@ u_{i+1} = u_i + \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1}))
 \begin{align*}
 k_1 &= h f(u_i, t_i) \\
 k_2 &= h f\Big(u_i + \frac{k_1}{2}, t_i + \frac{h}{2}\Big) \\
-k_{i+1} &= u_i + k_2
+u_{i+1} &= u_i + k_2
+\end{align*}
+```
+* Third Order Runge-Kutta (RK3 - Midpoint Method)
+```math
+\begin{align*}
+k_1 &= h f(u_i, t_i) \\
+k_2 &= h f\Big(u_i + \frac{k_1}{2}, t_i + \frac{h}{2}\Big) \\
+k_3 &= h f(u_i - k_1 + 2k_2, t_i + h) \\
+u_{i+1} &= u_i + \frac{1}{6}k_1 + \frac{2}{3}k_2 + \frac{1}{6}k_3
 \end{align*}
 ```

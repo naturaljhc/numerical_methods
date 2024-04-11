@@ -210,4 +210,46 @@ vector<double> rk3(const RCP<const Basic> &f, vector<double> tvec, double initia
     return ut;
 }
 
+vector<double> rk4(const RCP<const Basic> &f, vector<double> tvec, double initial_condition)
+{
+    RCP<const Basic> u = symbol("u");
+    RCP<const Basic> t = symbol("t");
+    vector<double> ut;
+    double h, k1, k2, k3, k4;
+
+    h = tvec[1] - tvec[0];
+
+    ut.push_back(initial_condition);
+
+    for (size_t i = 0; i < tvec.size() - 1; i++)
+    {
+        k1 = h * eval_double(
+            *f->subs(
+                {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
+            )
+        );
+
+        k2 = h * eval_double(
+            *f->subs(
+                {{u, real_double(ut[i] + k1/2)}, {t, real_double(tvec[i] + h/2)}}
+            )
+        );
+
+        k3 = h * eval_double(
+            *f->subs(
+                {{u, real_double(ut[i] + k2/2)}, {t, real_double(tvec[i] + h/2)}}
+            )
+        );
+
+        k4 = h * eval_double(
+            *f->subs(
+                {{u, real_double(ut[i] + k3)}, {t, real_double(tvec[i] + h)}}
+            )
+        );
+
+        ut.push_back(ut[i] + k1/6 + k2/3 + k3/3 + k4/6);
+    }
+    return ut;
+}
+
 #endif
