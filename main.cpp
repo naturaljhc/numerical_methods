@@ -24,7 +24,7 @@ void problem_menu()
     cout << "(b) Single-Variable Integration" << endl;
     cout << "(c) First Order ODE" << endl; 
 
-    cout << "Enter your selection: ";
+    cout << "Select the type of problem: " << endl;
     cin >> user_input;
     cin.ignore(255, '\n');
 

@@ -67,7 +67,7 @@ RCP<const Basic> ode_parser()
     */
     RCP<const Basic> expr;
     string user_input;
-    cout << "Enter your function, f(u,t) = ";
+    cout << "Enter your function, f(u,t) = " << endl;
     getline(cin, user_input);
 
     try {
@@ -91,7 +91,7 @@ void a_solver_menu()
 
     RCP<const Basic> expr;
     vector<double> data;
-    cout << "Enter your function, f(x) = ";
+    cout << "Enter your function, f(x) = " << endl;
     expr = function_parser();
     cout << "Parsed expression: " << expr->__str__() << endl;
 
@@ -106,11 +106,11 @@ void a_solver_menu()
     int n;
     double x0, xend;
     string problem = "Single-Variable Differentiation";
-    cout << "Enter the starting point, x = ";
+    cout << "Enter the starting point, x = " << endl;
     x0 = eval_double(*function_parser());
-    cout << "Enter the end point, x = ";
+    cout << "Enter the end point, x = " << endl;
     xend = eval_double(*function_parser());
-    cout << "Enter number of sub-intervals, n = ";
+    cout << "Enter number of sub-intervals, n = " << endl;
     n = static_cast<int> (eval_double(*function_parser()));
 
     // Save information to json
@@ -157,12 +157,12 @@ void b_solver_menu()
     cout << "(d) Trapezoidal Rule" << endl;
     cout << "(e) Simpson's 1/3 Rule" << endl; 
 
-    cout << "Enter your selection: ";
+    cout << "Enter your selection: " << endl;
     cin >> user_input;
     cin.ignore(255, '\n');
 
     RCP<const Basic> expr;
-    cout << "Enter your function, f(x) = ";
+    cout << "Enter your function, f(x) = " << endl;
     expr = function_parser();
     cout << "Parsed expression: " << expr->__str__() << endl;
 
@@ -177,11 +177,11 @@ void b_solver_menu()
     int n;
     double x0, xend;
     string problem = "Single-Variable Integration";
-    cout << "Enter the starting point, x = ";
+    cout << "Enter the starting point, x = " << endl;
     x0 = eval_double(*function_parser());
-    cout << "Enter the end point, x = ";
+    cout << "Enter the end point, x = " << endl;
     xend = eval_double(*function_parser());
-    cout << "Enter number of sub-intervals, n = ";
+    cout << "Enter number of sub-intervals, n = " << endl;
     n = static_cast<int> (eval_double(*function_parser()));
 
     // Save information to json
@@ -263,7 +263,7 @@ void c_solver_menu()
     cout << "(e) RK3" << endl;
     cout << "(f) RK4" << endl;
 
-    cout << "Enter your selection: ";
+    cout << "Enter your selection: " << endl;
     cin >> user_input;
     cin.ignore(255, '\n');
 
@@ -282,13 +282,13 @@ void c_solver_menu()
     int n;
     double t0, tend, initial_condition;
     string problem = "First Order ODE";
-    cout << "Enter the starting point, t = ";
+    cout << "Enter the starting point, t = " << endl;
     t0 = eval_double(*function_parser());
-    cout << "Enter the end point, t = ";
+    cout << "Enter the end point, t = " << endl;
     tend = eval_double(*function_parser());
-    cout << "Enter number of sub-intervals, n = ";
+    cout << "Enter number of sub-intervals, n = " << endl;
     n = static_cast<int> (eval_double(*function_parser()));
-    cout << "Enter the initial condition, u(t0) = ";
+    cout << "Enter the initial condition, u(t0) = " << endl;
     initial_condition = eval_double(*function_parser());
 
     // Save information to json
