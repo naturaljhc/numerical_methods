@@ -149,6 +149,7 @@ void b_solver_menu()
     */
 
     char user_input;
+    int order;
 
     cout << "(a) Left Side Rule" << endl;
     cout << "(b) Right Side Rule" << endl;
@@ -161,7 +162,7 @@ void b_solver_menu()
     cin.ignore(255, '\n');
 
     RCP<const Basic> expr;
-    vector<double> data;
+    cout << "Enter your function, f(x) = ";
     expr = function_parser();
     cout << "Parsed expression: " << expr->__str__() << endl;
 
@@ -174,7 +175,7 @@ void b_solver_menu()
     */
 
     int n;
-    double x0, xend, initial_condition;
+    double x0, xend;
     string problem = "Single-Variable Integration";
     cout << "Enter the starting point, x = ";
     x0 = eval_double(*function_parser());
@@ -182,8 +183,6 @@ void b_solver_menu()
     xend = eval_double(*function_parser());
     cout << "Enter number of sub-intervals, n = ";
     n = static_cast<int> (eval_double(*function_parser()));
-    cout << "Enter the initial condition, F(x0) = ";
-    initial_condition = eval_double(*function_parser());
 
     // Save information to json
     json inputData;
@@ -201,31 +200,49 @@ void b_solver_menu()
         exit(0);
     }
 
-    outFile << inputData.dump(4) << endl;
-    outFile.close();
-
-    vector<double> xvec;
+    vector<double> xvec, xvec2;
     xvec = linspace(x0, xend, n+1);
+    xvec2 = linspace(x0, xend, 2*n+1);
 
+    double data, data2, error;
     switch (user_input)
     {
         case 'a':
-            data = riemann_left_side(expr, xvec, initial_condition);
+            order = 1;
+            data = riemann_left_side(expr, xvec);
+            data2 = riemann_left_side(expr, xvec2);
+            error = estimate_error(data, data2, order);
             break;
         case 'b':
-            data = riemann_right_side(expr, xvec, initial_condition);
+            order = 1;
+            data = riemann_right_side(expr, xvec);
+            data2 = riemann_right_side(expr, xvec2);
+            error = estimate_error(data, data2, order);
             break;
         case 'c':
-            data = riemann_midpoint(expr, xvec, initial_condition);
+            order = 2;
+            data = riemann_midpoint(expr, xvec);
+            data2 = riemann_midpoint(expr, xvec2);
+            error = estimate_error(data, data2, order);
             break;
         case 'd':
-            data = riemann_trapezoidal(expr, xvec, initial_condition);
+            order = 2;
+            data = riemann_trapezoidal(expr, xvec);
+            data2 = riemann_trapezoidal(expr, xvec2);
+            error = estimate_error(data, data2, order);
             break;
         case 'e':
-            data = simpsons_quadratic(expr, xvec, initial_condition);
+            order = 4;
+            data = simpsons_quadratic(expr, xvec);
+            data2 = simpsons_quadratic(expr, xvec2);
+            error = estimate_error(data, data2, order);
             break;
     }
-    write_data_to_json(data, "data", file_path);
+    inputData["error"] = error;
+    inputData["data"] = data;
+    outFile << inputData.dump(4) << endl;
+    outFile.close();
+    // write_data_to_json(data, "data", file_path);
 }
 
 void c_solver_menu()

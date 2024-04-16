@@ -23,7 +23,7 @@ using namespace SymEngine;
 double estimate_error(double uh, double uh2, int p)
 {
     double error;
-    error = pow(2, p)/(pow(2, p) - 1) * (uh - uh2);
+    error = pow(2.0, p)/(pow(2.0, p) - 1) * (uh - uh2);
 
     return error;
 }
