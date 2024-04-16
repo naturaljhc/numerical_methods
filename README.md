@@ -8,7 +8,7 @@ f'(x_i) =  \frac{f(x_i+h) - f(x_i)}{h}
 ```
 
 ## Integration
-Single-Variable Integration: Accepts a function, $f(x)$, and calculates the integral using a cumulative sum. Calculates the integral at any given point, $x_i$, in a given interval using step size, $h$, and initial condition, $F(x_0) = F_0$. Note that these methods are used to calculate the area under the curve $f(x)$, but this will plot the anti-derivative instead - the area will be the last data point of the output.
+Single-Variable Integration: Accepts a function, $f(x)$, and calculates the integral in a given interval, $[x_0, x_N]$, using step size, $h$. 
 * Left Side Rule: 
 ```math
 F(x_i) = F_0 + h \times \sum^{i-1}_{j=0} f(x_j) \quad \text{for } i \geq 1
