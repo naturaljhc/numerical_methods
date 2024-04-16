@@ -6,9 +6,11 @@
 #include "differentiation.h"
 #include "integration.h"
 #include "first_order_ode.h"
+#include "error_estimation.h"
 #include <symengine/expression.h>
 #include <symengine/parser.h>
 #include <vector>
+// #include <pybind11/pybind11.h>
 
 using namespace std;
 using namespace SymEngine;
@@ -235,21 +237,20 @@ void c_solver_menu()
     */
 
     char user_input;
+    int order;
 
     cout << "(a) Euler's Method" << endl;
     cout << "(b) Backward Euler Method" << endl;
-    cout << "(c) Midpoint Method" << endl;
-    cout << "(d) Trapezoidal Method" << endl;
-    cout << "(e) RK2" << endl;
-    cout << "(f) RK3" << endl;
-    cout << "(g) RK4" << endl;
+    cout << "(c) Trapezoidal Method" << endl;
+    cout << "(d) RK2" << endl;
+    cout << "(e) RK3" << endl;
+    cout << "(f) RK4" << endl;
 
     cout << "Enter your selection: ";
     cin >> user_input;
     cin.ignore(255, '\n');
 
     RCP<const Basic> expr;
-    vector<double> data;
     expr = ode_parser();
     cout << "Parsed expression: " << expr->__str__() << endl;
 
@@ -289,36 +290,56 @@ void c_solver_menu()
         exit(0);
     }
 
-    outFile << inputData.dump(4) << endl;
-    outFile.close();
-
-    vector<double> tvec;
+    vector<double> tvec, tvec2;
     tvec = linspace(t0, tend, n+1);
+    tvec2 = linspace(t0, tend, 2*n + 1);
 
+    vector<double> data, data2;
+    double error;
     switch (user_input)
     {
         case 'a':
+            order = 1;
             data = eulers_method(expr, tvec, initial_condition);
+            data2 = eulers_method(expr, tvec2, initial_condition);
+            error = estimate_error(data[data.size()-1], data2[data2.size()-1], order);
             break;
         case 'b':
+            order = 1;
             data = backward_eulers_method(expr, tvec, initial_condition);
+            data2 = backward_eulers_method(expr, tvec2, initial_condition);
+            error = estimate_error(data[data.size()-1], data2[data2.size()-1], order);
             break;
         case 'c':
-            data = two_step_midpoint_method(expr, tvec, initial_condition);
+            order = 2;
+            data = trapezoidal_method(expr, tvec, initial_condition);
+            data2 = trapezoidal_method(expr, tvec2, initial_condition);
+            error = estimate_error(data[data.size()-1], data2[data2.size()-1], order);
             break;
         case 'd':
-            data = trapezoidal_method(expr, tvec, initial_condition);
+            order = 2;
+            data = rk2(expr, tvec, initial_condition);
+            data2 = rk2(expr, tvec2, initial_condition);
+            error = estimate_error(data[data.size()-1], data2[data2.size()-1], order);
             break;
         case 'e':
-            data = rk2(expr, tvec, initial_condition);
+            order = 3;
+            data = rk3(expr, tvec, initial_condition);
+            data2 = rk3(expr, tvec2, initial_condition);
+            error = estimate_error(data[data.size()-1], data2[data2.size()-1], order);
             break;
         case 'f':
-            data = rk3(expr, tvec, initial_condition);
-            break;
-        case 'g':
+            order = 4;
             data = rk4(expr, tvec, initial_condition);
+            data2 = rk4(expr, tvec2, initial_condition);
+            error = estimate_error(data[data.size()-1], data2[data2.size()-1], order);
             break;
     }
+
+    
+    inputData["error"] = error;
+    outFile << inputData.dump(4) << endl;
+    outFile.close();
     write_data_to_json(data, "data", file_path);
 }
 
