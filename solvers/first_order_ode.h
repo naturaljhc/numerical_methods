@@ -47,7 +47,7 @@ vector<double> backward_eulers_method(const RCP<const Basic> &f, vector<double> 
     RCP<const Symbol> u = symbol("u");
     RCP<const Symbol> t = symbol("t");
     RCP<const Symbol> x = symbol("x");
-    RCP<const Basic> root_funct, dfdx;
+    RCP<const Basic> root_funct; //, dfdx;
     vector<double> ut;
     double h;
 
@@ -68,41 +68,10 @@ vector<double> backward_eulers_method(const RCP<const Basic> &f, vector<double> 
             )
         );
 
-        dfdx = diff(root_funct, x);
-        ut.push_back(newtons_method(root_funct, dfdx, ut[i]));
-    }
+        // dfdx = diff(root_funct, x);
+        // ut.push_back(newtons_method(root_funct, dfdx, ut[i]));
 
-    return ut;
-}
-
-vector<double> two_step_midpoint_method(const RCP<const Basic> &f, vector<double> tvec, double initial_condition)
-{
-    RCP<const Basic> u = symbol("u");
-    RCP<const Basic> t = symbol("t");
-    vector<double> ut;
-    double h, unext;
-
-    h = tvec[1] - tvec[0];
-
-    ut.push_back(initial_condition);
-
-    // Initialize the midpoint method:
-    // Euler's method to find u_1
-    unext = ut[0] + h * eval_double(
-            *f->subs(
-                    {{u, real_double(ut[0])}, {t, real_double(tvec[0])}}
-                )
-            );
-    ut.push_back(unext);
-
-    for (size_t i = 1; i < tvec.size() - 1; i++)
-    {
-        unext = ut[i-1] + h * eval_double(
-            *f->subs(
-                    {{u, real_double(ut[i])}, {t, real_double(tvec[i])}}
-                )
-            );
-        ut.push_back(unext);
+        ut.push_back(finite_differences_newtons_method(root_funct, 1.e-15, ut[i]));
     }
 
     return ut;
@@ -113,7 +82,7 @@ vector<double> trapezoidal_method(const RCP<const Basic> &f, vector<double> tvec
     RCP<const Symbol> u = symbol("u");
     RCP<const Symbol> t = symbol("t");
     RCP<const Symbol> x = symbol("x");
-    RCP<const Basic> root_funct, dfdx;
+    RCP<const Basic> root_funct; //, dfdx;
     vector<double> ut;
     double h;
 
@@ -136,9 +105,11 @@ vector<double> trapezoidal_method(const RCP<const Basic> &f, vector<double> tvec
                 )
             )
         );
-        dfdx = diff(root_funct, x);
+        
+        // dfdx = diff(root_funct, x);
+        // ut.push_back(newtons_method(root_funct, dfdx, ut[i]));
 
-        ut.push_back(newtons_method(root_funct, dfdx, ut[i]));
+        ut.push_back(finite_differences_newtons_method(root_funct, 1.e-15, ut[i]));
     }
 
     return ut;

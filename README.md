@@ -39,10 +39,6 @@ u_{i+1} = u_i + hf(u_i,t_i)
 ```math
 u_{i+1} = u_i + hf(u_{i+1},t_{i+1})
 ```
-* Two-Step Midpoint Method: 
-```math
-u_{i+1} = u_{i-1} + hf(u_i , t_i)
-```
 * Trapezoidal Method: Uses Newton's Method to solve $u_{i+1} - u_i - \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1})) = 0$
 ```math
 u_{i+1} = u_i + \frac{h}{2}(f(u_i, t_i) + f(u_{i+1}, t_{i+1}))
@@ -73,4 +69,18 @@ k_3 &= h f\Big(u_i + \frac{k_2}{2}, t_i + \frac{h}{2}\Big) \\
 k_4 &= h f(u_i + k_3, t_i + h) \\
 u_{i+1} &= u_i + \frac{1}{6}k_1 + \frac{1}{3}k_2 + \frac{1}{3}k_3 + \frac{1}{6}k_4
 \end{align*}
+```
+
+## Appendix
+* Newton's Method: Approximates the roots of a real-valued function, $f(x)$. Note that the derivative is approximated using central finite differences
+```math
+\begin{align*}
+x_{i+1} &= x_i - \frac{f(x_i)}{f'(x_i)}
+\end{align*}
+```
+* Error Estimation: Errors of each method can be approximated when the order, $p$, is known. Two simulations are performed, one with step size, $h$, and another with step size, $\frac{h}{2}$
+```math
+\begin{align*}
+E(h) &= \frac{2^p}{2^p-1}\Bigg(T(h) - T\bigg(\frac{h}{2}\bigg)\Bigg)
+\end{align*} 
 ```
