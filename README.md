@@ -1,12 +1,6 @@
 # Numerical Methods
 Program to solve math problems using numerical methods in C++ and then plotting the solutions in Python.
 
-## Building this Program Using Docker
-```
-docker pull mathbbn/numerical_methods:latest
-docker run -p 8501:8501 mathbbn/numerical_methods:latest
-```
-
 ## Differentiation
 Single-Variable Differentiation: Accepts a function, $f(x)$, and calculates the derivative at any given point, $x_i$, in a given interval using step size $h$. 
 ```math
@@ -89,4 +83,10 @@ x_{i+1} &= x_i - \frac{f(x_i)}{f'(x_i)}
 \begin{align*}
 E(h) &= \frac{2^p}{2^p-1}\Bigg(T(h) - T\bigg(\frac{h}{2}\bigg)\Bigg)
 \end{align*} 
+```
+
+## Building this Program Using Docker
+```
+docker pull mathbbn/numerical_methods:latest
+docker run -p 8501:8501 mathbbn/numerical_methods:latest
 ```
