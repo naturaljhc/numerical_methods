@@ -186,6 +186,7 @@ void b_solver_menu()
 
     // Save information to json
     json inputData;
+    inputData["equation"] = expr->__str__();
     inputData["problem"] = problem;
     inputData["x0"] = x0;
     inputData["xend"] = xend;
@@ -293,6 +294,7 @@ void c_solver_menu()
 
     // Save information to json
     json inputData;
+    inputData["equation"] = expr->__str__();
     inputData["problem"] = problem;
     inputData["t0"] = t0;
     inputData["tend"] = tend;
