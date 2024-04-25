@@ -6,7 +6,6 @@ import time
 
 def pipe_input(var):
     global cpp_process
-    cpp_process.stdout.readline().strip()
     cpp_process.stdin.write(var + '\n')
     cpp_process.stdin.flush()
     return
@@ -20,13 +19,8 @@ def differentiation():
     n = st.text_input("Enter number of sub-intervals, n = ")
 
     if st.button("Run"):
-        cpp_process = subprocess.Popen(["./main"], stdin = subprocess.PIPE, stdout = subprocess.PIPE, text = True)    
-        cpp_process.stdout.readline()
-        cpp_process.stdout.readline()
-        cpp_process.stdout.readline()
         pipe_input('a')
         pipe_input(expr)
-        cpp_process.stdout.readline()
         pipe_input(x0)
         pipe_input(xend)
         pipe_input(n)
@@ -72,16 +66,9 @@ def single_value_integration():
     n = st.text_input("Enter number of sub-intervals, n = ")
 
     if st.button("Run"):
-        cpp_process = subprocess.Popen(["./main"], stdin = subprocess.PIPE, stdout = subprocess.PIPE, text = True)    
-        cpp_process.stdout.readline()
-        cpp_process.stdout.readline()
-        cpp_process.stdout.readline()
         pipe_input('b')
-        for i in range(len(solvers)):
-            cpp_process.stdout.readline()
         pipe_input(solver)
         pipe_input(expr)
-        cpp_process.stdout.readline()
         pipe_input(x0)
         pipe_input(xend)
         pipe_input(n)
@@ -118,16 +105,9 @@ def first_order_ode():
     u0 = st.text_input("Enter the initial condition, u(t0) = ")
 
     if st.button("Run"):
-        cpp_process = subprocess.Popen(["./main"], stdin = subprocess.PIPE, stdout = subprocess.PIPE, text = True)    
-        cpp_process.stdout.readline()
-        cpp_process.stdout.readline()
-        cpp_process.stdout.readline()
         pipe_input('c')
-        for i in range(len(solvers)):
-            cpp_process.stdout.readline()
         pipe_input(solver)
         pipe_input(expr)
-        cpp_process.stdout.readline()
         pipe_input(x0)
         pipe_input(xend)
         pipe_input(n)
@@ -171,6 +151,7 @@ def main():
         problem_types
     )
 
+    cpp_process = subprocess.Popen(["./main"], stdin = subprocess.PIPE, stdout = subprocess.PIPE, text = True)
     if (problem == "Differentiation"):
         differentiation()
     if (problem == "Single-Variable Integration"):
